@@ -1,0 +1,7 @@
+*.json
+empresa_a
+empresa_b
+empresa_c
+__pycache__
+test.py
+.DS_Store
