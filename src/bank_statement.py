@@ -1,6 +1,6 @@
 from datetime import datetime
 import itertools
-from movement_helper import MovementHelper
+from .movement_helper import MovementHelper
 
 class BankStatement:
 
@@ -25,11 +25,6 @@ class BankStatement:
     def show_movements(self):
         dates = sorted(self.dates.keys(), key=lambda date_s: datetime.strptime(date_s, "%Y-%m-%d"))
         for date in dates:
-            # movements = self.dates[date]["movements"]
-            # sorted_movements = sorted(movements.values(), key=lambda mv: datetime.fromisoformat(mv["accountable_date"].strip("Z")))
-            # for movement in sorted_movements:
-            #     income_outcome = 1 if movement["type"] == "inbound" else -1
-            #     print(f'{movement["accountable_date"]} | {income_outcome * movement["amount"]} | {movement["description"]}')
 
             for movement_key in self.movements_order[date]:
                 movement = self.dates[date]["movements"][movement_key]
@@ -71,7 +66,8 @@ class BankStatement:
             movements = self.dates[movement_date]["movements"]
             for mv_index in range(len(self.movements_order[movement_date])):
                 movement_key_in_order = self.movements_order[movement_date][mv_index]
-                date_comparison = MovementHelper.compare_isodate(raw_movement["accountable_date"], movements[movement_key_in_order]["post_date"])
+                date_comparison = MovementHelper.compare_isodate(raw_movement["accountable_date"],
+                                                                 movements[movement_key_in_order]["post_date"])
                 if date_comparison == -1:
                     self.movements_order[movement_date].insert(mv_index, movement_key)
                     break
